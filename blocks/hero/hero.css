@@ -45,3 +45,155 @@
     padding: 40px 32px;
   }
 }
+
+.hero.hero5.block {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.hero.hero5.block > div {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.hero.hero5.block > div:first-child {
+  order: 2;
+  background: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.hero.hero5.block > div:first-child > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.hero.hero5.block > div:last-child {
+  order: 1;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.hero.hero5.block > div:last-child > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+  max-width: 430px;
+  margin: 0;
+  padding: 0 1.75rem;
+  height: 100%;
+}
+
+.hero.hero5.block > div:first-child picture,
+.hero.hero5.block > div:first-child img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hero.hero5.block h2,
+.hero.hero5.block h1 {
+  color: #222;
+  font-family: var(--heading-font-family);
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+.hero.hero5.block p {
+  color: #555;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin: 0 0 0.75rem;
+  text-align: left;
+  max-width: 100%;
+}
+
+.hero.hero5.block .button-container {
+  display: flex;
+  gap: 0.7em;
+  margin: 0;
+  padding: 0;
+}
+
+.hero.hero5.block .button-container .button,
+.hero.hero5.block a.button {
+  background: #fff;
+  border: 1.5px solid #222;
+  color: #222;
+  border-radius: 2em;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.75em 2em;
+  margin: 0;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  box-shadow: none;
+}
+
+.hero.hero5.block .button-container .button:hover,
+.hero.hero5.block a.button:hover {
+  background: #f0f0f0;
+  color: #222;
+  border-color: #222;
+  text-decoration: none;
+}
+
+@media (width <= 900px) {
+  .hero.hero5.block {
+    flex-direction: column;
+    height: auto;
+    min-height: unset;
+    width: 100vw;
+  }
+
+  .hero.hero5.block > div,
+  .hero.hero5.block > div:first-child,
+  .hero.hero5.block > div:last-child {
+    min-width: 0;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    height: auto;
+  }
+
+  .hero.hero5.block > div:first-child picture,
+  .hero.hero5.block > div:first-child img {
+    height: 38vh;
+    min-height: 220px;
+    max-height: 60vw;
+  }
+
+  .hero.hero5.block > div:last-child > div {
+    padding: 2rem 1rem;
+    max-width: 100%;
+    height: auto;
+  }
+}
