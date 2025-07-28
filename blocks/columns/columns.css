@@ -2412,7 +2412,6 @@
   }
 }
 
-/* Left column: headline and subheadline stacked, wider column */
 .columns.columns35 > div > div:first-child {
   display: flex;
   flex-direction: column;
@@ -2422,7 +2421,6 @@
   flex: 2 1 0;
 }
 
-/* Headline: no excess margin */
 .columns.columns35 h2 {
   font-family: var(--heading-font-family);
   font-weight: 400;
@@ -2433,7 +2431,6 @@
   line-height: 1.08;
 }
 
-/* Subheadline/text */
 .columns.columns35 p:not(.button-container) {
   font-family: var(--body-font-family);
   color: #757575;
@@ -2441,7 +2438,6 @@
   margin: 0;
 }
 
-/* Right column: only as wide as button, button left-aligned */
 .columns.columns35 > div > div:last-child {
   display: flex;
   justify-content: flex-start;
@@ -2451,12 +2447,10 @@
   max-width: 360px;
 }
 
-/* Remove extra margin from button container */
 .columns.columns35 .button-container {
   margin: 0;
 }
 
-/* Button: pill, outlined, yellow accent, centered text */
 .columns.columns35 .button {
   min-width: 260px;
   max-width: 100%;
@@ -2494,4 +2488,180 @@
     font-size: 0.98rem;
     padding: 9px 0;
   }
+}
+
+
+.columns.columns36 {
+  background: #FAFAF5;
+  padding: 56px 0;
+  box-sizing: border-box;
+}
+
+.columns.columns36 > div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  max-width: 1700px;
+  margin: 0 auto;
+  padding: 0 70px;
+  gap: 90px;
+}
+
+@media (width <= 1500px) {
+  .columns.columns36 > div {
+    max-width: 1300px;
+    padding: 0 32px;
+    gap: 64px;
+  }
+}
+
+@media (width <= 900px) {
+  .columns.columns36 > div {
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 6vw;
+    max-width: 100vw;
+  }
+}
+
+/* Make text column wider for better headline wrapping */
+.columns.columns36 > div > div:first-child {
+  order: 0;
+  flex: 1 1 800px;
+  min-width: 430px;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Headline: more width, fewer line breaks */
+.columns.columns36 h1 {
+  font-family: var(--heading-font-family);
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: #181818;
+  margin: 0 0 32px;
+  text-align: left;
+  max-width: 100%;
+  word-break: break-word;
+}
+
+/* Paragraph styling */
+.columns.columns36 > div > div:first-child p {
+  font-size: 18px;
+  color: #5D5D5B;
+  margin-bottom: 32px;
+  margin-top: 0;
+  text-align: left;
+  max-width: 90%;
+}
+
+/* Button container */
+.columns.columns36 .button-container {
+  display: flex;
+  gap: 16px;
+  margin-top: 0;
+  justify-content: flex-start;
+  padding-bottom: 8px;
+}
+
+/* Button style */
+.columns.columns36 .button-container .button {
+  font-size: 17px;
+  padding: 12px 32px;
+  border-radius: 100px;
+  border: 2px solid #181818;
+  background: transparent;
+  color: #181818;
+  font-weight: 500;
+  line-height: 1.2;
+  margin: 0;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+/* Gallery column: make wider for stronger overflow/cropping effect */
+.columns.columns36 > div > .columns-img-col {
+  order: 1;
+  flex: 1 1 1140px;
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  overflow: visible;
+}
+
+/* Gallery row: less gap, more negative margin for cropping */
+.columns.columns36 .columns-img-col > p {
+  display: flex;
+  flex-direction: row;
+  gap: 34px;
+  margin: 0;
+  padding: 0;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-x: visible;
+  margin-right: -220px;
+}
+
+@media (width <= 1500px) {
+  .columns.columns36 .columns-img-col > p {
+    gap: 26px;
+    margin-right: -110px;
+  }
+}
+
+@media (width <= 900px) {
+  .columns.columns36 > div > .columns-img-col {
+    flex: 1 1 100%;
+  }
+
+  .columns.columns36 .columns-img-col > p {
+    gap: 12px;
+    overflow-x: auto;
+    margin-right: 0;
+    padding-bottom: 8px;
+  }
+}
+
+/* Larger, squarer image cards; original design is less tall and more square */
+.columns.columns36 .columns-img-col picture {
+  display: block;
+  flex: 0 0 330px;
+  width: 330px;
+  height: 370px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px 0 rgb(30 30 33 / 10%);
+  background: #fff;
+}
+
+@media (width <= 1500px) {
+  .columns.columns36 .columns-img-col picture {
+    width: 230px;
+    height: 260px;
+    flex-basis: 230px;
+  }
+}
+
+@media (width <= 900px) {
+  .columns.columns36 .columns-img-col picture {
+    width: 130px;
+    height: 140px;
+    flex-basis: 130px;
+    min-width: 100px;
+  }
+}
+
+.columns.columns36 .columns-img-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 24px;
+  background: #eee;
 }
