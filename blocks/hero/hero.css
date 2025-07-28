@@ -46,6 +46,70 @@
   }
 }
 
+/* --- Start: hero6 styles --- */
+.hero.hero6 > div:first-child {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: block;
+}
+
+.hero.hero6 picture,
+.hero.hero6 picture img {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0;
+}
+
+/* --- Start: hero12 styles --- */
+.hero.hero12 > div:first-child {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  display: block;
+}
+
+.hero.hero12 > div:last-child {
+  position: relative;
+  z-index: 1;
+  background: rgb(44 44 44 / 35%);
+  border: 1.5px solid rgb(45 45 45 / 16%);
+  border-radius: 28px;
+  box-shadow: 0 6px 38px rgb(0 0 0 / 13%);
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 34px 48px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 38px;
+  min-width: 0;
+}
+
+.hero.hero12 {
+  position: relative;
+  min-height: 580px;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 6px 38px rgb(0 0 0 / 13%);
+  background: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- Start: hero5 styles --- */
 .hero.hero5 {
   display: flex;
   flex-direction: row;
@@ -209,26 +273,6 @@
   }
 }
 
-.hero.hero6 > div:first-child {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  display: block;
-}
-
-.hero.hero6 picture,
-.hero.hero6 picture img {
-  width: 100%;
-  height: 100%;
-  min-height: 100%;
-  object-fit: cover;
-  display: block;
-  border-radius: 0;
-}
-
 .hero.hero6 > div:last-child {
   position: relative;
   z-index: 2;
@@ -355,4 +399,154 @@
     border-radius: 0;
     gap: 9px;
   }
+}
+
+.hero.hero12 > div:first-child > div,
+.hero.hero12 > div:first-child picture,
+.hero.hero12 > div:first-child img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: 32px;
+}
+
+/* Overlay panel: perfectly centered, compact, more opaque for contrast */
+
+/* Responsiveness: stack vertically on small screens */
+@media (width <= 900px) {
+  .hero.hero12 > div:last-child {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 4vw 24px;
+    margin: 8px 2vw;
+    gap: 18px;
+    border-radius: 12px;
+    max-width: 98vw;
+  }
+}
+
+/* Left column: card image, vertically centered to headline/list */
+.hero.hero12 > div:last-child > div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-width: 150px;
+}
+
+.hero.hero12 > div:last-child > div:first-child picture {
+  width: 150px;
+  height: 150px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px rgb(0 0 0 / 13%);
+  display: block;
+}
+
+.hero.hero12 > div:last-child > div:first-child picture img {
+  width: 100%;
+  height: 100%;
+  border-radius: 18px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (width <= 900px) {
+  .hero.hero12 > div:last-child > div:first-child picture,
+  .hero.hero12 > div:last-child > div:first-child picture img {
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+  }
+}
+
+/* Right column: headline, list, button; stretch to use more width for headline */
+.hero.hero12 > div:last-child > div:last-child {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Headline: max width, single row if possible, less aggressive wrapping */
+.hero.hero12 > div:last-child > div:last-child h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 2.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: rgb(0 0 0 / 88%);
+  max-width: 100%;
+  line-height: 1.07;
+  text-align: left;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+@media (width <= 900px) {
+  .hero.hero12 > div:last-child > div:last-child h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    max-width: 98vw;
+  }
+}
+
+/* List of features: compact, tighter vertical gap */
+.hero.hero12 > div:last-child > div:last-child > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 2px;
+  color: rgb(18 18 18 / 98%);
+  font-size: 1.06rem;
+  font-weight: 500;
+  letter-spacing: 0.007em;
+  background: none;
+  box-shadow: none;
+  line-height: 1.31;
+}
+
+.hero.hero12 > div:last-child > div:last-child > p > img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  margin: 0 8px 0 0;
+  display: inline-block;
+  vertical-align: middle;
+  filter: grayscale(1) brightness(0.15);
+  opacity: 0.97;
+}
+
+.hero.hero12 > div:last-child > div:last-child > p:last-of-type {
+  margin-bottom: 0;
+}
+
+/* SUBSCRIBE button: very tight to last list item, outlined, left aligned */
+.hero-container > .hero-wrapper > .hero.hero12 .button,
+.hero.hero12 .button {
+  display: inline-block;
+  margin-top: 4px;
+  background: transparent;
+  border: 2px solid #222;
+  color: #222;
+  border-radius: 2em;
+  padding: 13px 38px;
+  font-size: 1.09rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+  box-shadow: 0 2px 7px rgb(0 0 0 / 4%);
+  text-align: left;
+}
+
+.hero-container > .hero-wrapper > .hero.hero12 .button:hover,
+.hero.hero12 .button:hover {
+  background: rgb(0 0 0 / 10%);
+  border-color: #131313;
+  color: #131313;
 }
