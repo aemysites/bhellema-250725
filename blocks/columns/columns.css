@@ -2525,7 +2525,6 @@
   }
 }
 
-/* Make text column wider for better headline wrapping */
 .columns.columns36 > div > div:first-child {
   order: 0;
   flex: 1 1 800px;
@@ -2537,7 +2536,6 @@
   align-items: flex-start;
 }
 
-/* Headline: more width, fewer line breaks */
 .columns.columns36 h1 {
   font-family: var(--heading-font-family);
   font-size: 64px;
@@ -2551,7 +2549,6 @@
   word-break: break-word;
 }
 
-/* Paragraph styling */
 .columns.columns36 > div > div:first-child p {
   font-size: 18px;
   color: #5D5D5B;
@@ -2561,7 +2558,6 @@
   max-width: 90%;
 }
 
-/* Button container */
 .columns.columns36 .button-container {
   display: flex;
   gap: 16px;
@@ -2570,7 +2566,6 @@
   padding-bottom: 8px;
 }
 
-/* Button style */
 .columns.columns36 .button-container .button {
   font-size: 17px;
   padding: 12px 32px;
@@ -2585,7 +2580,6 @@
   transition: background 0.2s, color 0.2s, border 0.2s;
 }
 
-/* Gallery column: make wider for stronger overflow/cropping effect */
 .columns.columns36 > div > .columns-img-col {
   order: 1;
   flex: 1 1 1140px;
@@ -2595,7 +2589,6 @@
   overflow: visible;
 }
 
-/* Gallery row: less gap, more negative margin for cropping */
 .columns.columns36 .columns-img-col > p {
   display: flex;
   flex-direction: row;
@@ -2628,7 +2621,6 @@
   }
 }
 
-/* Larger, squarer image cards; original design is less tall and more square */
 .columns.columns36 .columns-img-col picture {
   display: block;
   flex: 0 0 330px;
@@ -2664,4 +2656,65 @@
   display: block;
   border-radius: 24px;
   background: #eee;
+}
+
+
+.columns.columns38 > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: 840px;
+  margin: 0 auto;
+  gap: 40px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 48px 0;
+}
+
+/* Make each image group a flex child, center content vertically */
+.columns.columns38 .columns-img-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Side images (first and third): smaller */
+.columns.columns38 .columns-img-col img {
+  border-radius: 20px;
+  width: 220px;
+  height: 220px;
+  object-fit: cover;
+  background: #fff;
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+}
+
+/* Center image (second): larger */
+.columns.columns38 .columns-img-col:nth-child(2) img {
+  width: 320px;
+  height: 320px;
+}
+
+/* Responsive: stack vertically, fill width, keep aspect ratio */
+@media (width <= 900px) {
+  .columns.columns38 > div {
+    flex-direction: column;
+    gap: 24px;
+    max-width: 96vw;
+    padding: 32px 0;
+  }
+
+  .columns.columns38 .columns-img-col img,
+  .columns.columns38 .columns-img-col:nth-child(2) img {
+    width: 88vw;
+    min-width: 0;
+    max-width: 98vw;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
 }
