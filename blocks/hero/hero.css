@@ -46,152 +46,167 @@
   }
 }
 
-.hero.hero5.block {
+.hero.hero5 {
   display: flex;
   flex-direction: row;
   width: 100vw;
   height: 100vh;
-  min-height: 100vh;
+  min-height: 600px;
   margin: 0;
   padding: 0;
+  background: transparent;
   box-sizing: border-box;
-  position: relative;
+  /* Remove any inherited margin/padding from parent blocks */
 }
 
-.hero.hero5.block > div {
-  flex: 1 1 0;
+.hero.hero5 > div {
   min-width: 0;
-  padding: 0;
-  margin: 0;
+  min-height: 0;
   display: flex;
   align-items: stretch;
   justify-content: stretch;
-}
-
-.hero.hero5.block > div:first-child {
-  order: 2;
-  background: none;
   padding: 0;
   margin: 0;
-  display: flex;
-  align-items: stretch;
 }
 
-.hero.hero5.block > div:first-child > div {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: stretch;
-  justify-content: stretch;
-}
-
-.hero.hero5.block > div:last-child {
+.hero.hero5 > div:last-child {
+  /* Text Column */
+  flex: 0 0 47.5%;
   order: 1;
   background: #fff;
-  padding: 0;
-  margin: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  /* Eliminate vertical centering */
 }
 
-.hero.hero5.block > div:last-child > div {
+.hero.hero5 > div:last-child > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
+  max-width: 480px;
   width: 100%;
-  max-width: 430px;
+  padding: 13vh 5vw 0;
   margin: 0;
-  padding: 0 1.75rem;
-  height: 100%;
 }
 
-.hero.hero5.block > div:first-child picture,
-.hero.hero5.block > div:first-child img {
+.hero.hero5 > div:first-child {
+  /* Image Column */
+  flex: 1 1 52.5%;
+  order: 2;
+  background: transparent;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+}
+
+.hero.hero5 > div:first-child > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.hero.hero5 > div:first-child picture,
+.hero.hero5 > div:first-child img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: right center;
   display: block;
 }
 
-.hero.hero5.block h2,
-.hero.hero5.block h1 {
-  color: #222;
-  font-family: var(--heading-font-family);
-  font-size: 2.5rem;
+.hero.hero5 h2,
+.hero.hero5 h1 {
+  color: #1a1a1a;
+  font-family: Montserrat, Syncopate, var(--heading-font-family), sans-serif;
+  font-size: 2.9rem;
   font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  margin: 0 0 1rem;
+  letter-spacing: 0.06em;
+  margin: 0 0 1.7rem;
+  text-transform: uppercase;
+  line-height: 1.05;
   text-align: left;
 }
 
-.hero.hero5.block p {
-  color: #555;
-  font-size: 1.125rem;
+.hero.hero5 p:not(.button-container) {
+  color: #444;
+  font-size: 1.08rem;
+  font-weight: 400;
+  margin: 0 0 2.6rem;
   line-height: 1.6;
-  margin: 0 0 0.75rem;
   text-align: left;
-  max-width: 100%;
 }
 
-.hero.hero5.block .button-container {
+.hero.hero5 .button-container {
   display: flex;
-  gap: 0.7em;
+  flex-wrap: wrap;
+  gap: 1.3rem;
   margin: 0;
   padding: 0;
 }
 
-.hero.hero5.block .button-container .button,
-.hero.hero5.block a.button {
+.hero.hero5 .button-container .button,
+.hero.hero5 a.button {
   background: #fff;
-  border: 1.5px solid #222;
-  color: #222;
-  border-radius: 2em;
+  color: #1a1a1a;
+  border: 1.5px solid #1a1a1a;
+  border-radius: 2rem;
+  font-size: 1.04rem;
+  font-family: inherit;
   font-weight: 500;
-  font-size: 1rem;
-  padding: 0.75em 2em;
+  padding: 0.7rem 2.1rem;
   margin: 0;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  transition: background 0.2s, color 0.2s;
   box-shadow: none;
 }
 
-.hero.hero5.block .button-container .button:hover,
-.hero.hero5.block a.button:hover {
-  background: #f0f0f0;
-  color: #222;
-  border-color: #222;
+.hero.hero5 .button-container .button:hover,
+.hero.hero5 a.button:hover {
+  background: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
   text-decoration: none;
 }
 
 @media (width <= 900px) {
-  .hero.hero5.block {
+  .hero.hero5 {
     flex-direction: column;
+    width: 100vw;
     height: auto;
     min-height: unset;
-    width: 100vw;
   }
 
-  .hero.hero5.block > div,
-  .hero.hero5.block > div:first-child,
-  .hero.hero5.block > div:last-child {
-    min-width: 0;
+  .hero.hero5 > div:first-child,
+  .hero.hero5 > div:last-child {
     width: 100%;
-    padding: 0;
-    margin: 0;
-    height: auto;
+    min-width: 0;
+    min-height: 0;
   }
 
-  .hero.hero5.block > div:first-child picture,
-  .hero.hero5.block > div:first-child img {
+  .hero.hero5 > div:first-child {
+    order: 1;
     height: 38vh;
     min-height: 220px;
     max-height: 60vw;
   }
 
-  .hero.hero5.block > div:last-child > div {
+  .hero.hero5 > div:last-child {
+    order: 2;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .hero.hero5 > div:last-child > div {
     padding: 2rem 1rem;
     max-width: 100%;
     height: auto;
