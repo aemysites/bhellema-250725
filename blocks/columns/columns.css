@@ -1588,7 +1588,6 @@
   padding: 64px 0 0;
 }
 
-/* Two-column grid layout */
 .columns.columns26 > div {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -1600,14 +1599,12 @@
   align-items: start;
 }
 
-/* Flex column for left side: headline, then user meta row below */
 .columns.columns26 > div > div:first-child {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 }
 
-/* Headline */
 .columns.columns26 > div > div:first-child > p:first-child {
   font-family: Syncopate, 'Syncopate Fallback', sans-serif;
   font-size: 2.7rem;
@@ -1620,7 +1617,6 @@
   max-width: 540px;
 }
 
-/* --- USER META: FLEX ROW BELOW HEADLINE --- */
 .columns.columns26 > div > div:first-child .user-meta-row {
   display: flex;
   flex-direction: row;
@@ -1629,7 +1625,6 @@
   margin: 0;
 }
 
-/* Patch: Use adjacent siblings for row grouping */
 .columns.columns26 > div > div:first-child > p:nth-child(2),
 .columns.columns26 > div > div:first-child > p:nth-child(3),
 .columns.columns26 > div > div:first-child > p:nth-child(4) {
@@ -1640,7 +1635,6 @@
 }
 
 .columns.columns26 > div > div:first-child > p:nth-child(2) {
-  /* Avatar */
   margin-right: 16px;
 }
 
@@ -1653,7 +1647,6 @@
   display: block;
 }
 
-/* Name & title stacked vertically to the right of avatar */
 .columns.columns26 > div > div:first-child .user-meta-names {
   display: flex;
   flex-direction: column;
@@ -1677,18 +1670,15 @@
   display: block;
 }
 
-/* --- Assemble user meta row below headline, horizontally --- */
 @media (width >= 601px) {
   .columns.columns26 > div > div:first-child > p:nth-child(2),
   .columns.columns26 > div > div:first-child > p:nth-child(3),
   .columns.columns26 > div > div:first-child > p:nth-child(4) {
-    /* Undo any stacking from mobile */
     display: inline-block;
     vertical-align: top;
   }
 
   .columns.columns26 > div > div:first-child > p:nth-child(2) {
-    /* Avatar */
     margin-top: 0;
     margin-bottom: 0;
   }
@@ -1702,14 +1692,11 @@
     margin-right: 0;
   }
 
-  /* User meta row: group the three ps in a flex row */
   .columns.columns26 > div > div:first-child {
-    /* add a little vertical space between headline and user meta */
     row-gap: 12px;
   }
 }
 
-/* --- QUOTE COLUMN --- */
 .columns.columns26 > div > div:last-child {
   grid-row: 1 / 2;
   grid-column: 2 / 3;
@@ -1729,7 +1716,6 @@
   margin: 0;
 }
 
-/* --- DIVIDER --- */
 .columns.columns26 > div::after {
   display: block;
   border-bottom: 1px solid #e4e4e1;
@@ -1740,7 +1726,6 @@
   content: "";
 }
 
-/* --- RESPONSIVE --- */
 @media (width <= 900px) {
   .columns.columns26 > div {
     grid-template-columns: 1fr;
@@ -1773,7 +1758,6 @@
     margin-top: 20px;
   }
 
-  /* Stack avatar above name/title on mobile for space */
   .columns.columns26 > div > div:first-child > p:nth-child(2),
   .columns.columns26 > div > div:first-child > p:nth-child(3),
   .columns.columns26 > div > div:first-child > p:nth-child(4) {
@@ -1782,4 +1766,196 @@
     margin-right: 0;
     vertical-align: top;
   }
+}
+
+
+.columns.columns27 {
+  background: #FAFAF8;
+  padding: 0;
+}
+
+/* Main row: side-by-side, vertical alignment at top */
+.columns.columns27 > div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2.5rem;
+  box-sizing: border-box;
+  min-height: 600px;
+}
+
+/* Left: text column (narrower, so heading wraps more, more balanced) */
+.columns.columns27 > div > div:first-child {
+  order: 1;
+  max-width: 400px;
+  min-width: 300px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Right: image column (portrait, vertically aligned to top, fills height) */
+.columns.columns27 > div > .columns-img-col {
+  order: 2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 430px;
+  min-width: 260px;
+  height: auto;
+  min-height: 480px;
+
+  /* Offset image downward to align top with heading, not byline */
+  padding-top: 4.6rem;
+}
+
+.columns.columns27 .columns-img-col picture,
+.columns.columns27 .columns-img-col img {
+  width: 100%;
+  height: 100%;
+  max-width: 380px;
+  min-width: 220px;
+  min-height: 460px;
+  aspect-ratio: 3/4;
+  border-radius: 1.25rem;
+  object-fit: cover;
+  display: block;
+  background: #eee;
+}
+
+@media (width <= 1000px) {
+  .columns.columns27 > div {
+    gap: 1.1rem;
+    padding: 2.25rem 1rem;
+    min-height: 440px;
+  }
+
+  .columns.columns27 > div > div:first-child, 
+  .columns.columns27 > div > .columns-img-col {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .columns.columns27 .columns-img-col picture,
+  .columns.columns27 .columns-img-col img {
+    max-width: 260px;
+    min-height: 260px;
+  }
+
+  .columns.columns27 > div > .columns-img-col {
+    padding-top: 2.6rem;
+  }
+}
+
+@media (width <= 700px) {
+  .columns.columns27 > div {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1.5rem 0.5rem;
+    min-height: unset;
+  }
+
+  .columns.columns27 > div > div:first-child,
+  .columns.columns27 > div > .columns-img-col {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .columns.columns27 .columns-img-col picture,
+  .columns.columns27 .columns-img-col img {
+    max-width: 100vw;
+    min-width: 0;
+    min-height: 180px;
+  }
+
+  .columns.columns27 > div > .columns-img-col {
+    padding-top: 0;
+  }
+}
+
+/* Typography & Rhythm */
+.columns.columns27 > div > div:first-child > div > p:first-child {
+  text-transform: uppercase;
+  font-size: 13px;
+  color: #757575;
+  letter-spacing: 0.08em;
+  margin-top: 0;
+  margin-bottom: 2.8rem;
+  font-weight: 400;
+}
+
+.columns.columns27 > div > div:first-child h2 {
+  font-family: Syncopate, 'Syncopate Fallback', sans-serif;
+  font-size: 64px;
+  line-height: 1.02;
+  font-weight: 400;
+  color: #111;
+  letter-spacing: -0.01em;
+  margin: 0 0 2.2rem;
+  text-transform: none;
+  text-align: left;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+@media (width <= 900px) {
+  .columns.columns27 > div > div:first-child h2 {
+    font-size: 40px;
+    margin-bottom: 1.6rem;
+  }
+}
+
+.columns.columns27 > div > div:first-child > div > p:nth-of-type(2) {
+  font-size: 19px;
+  color: #222;
+  line-height: 1.7;
+  margin: 0 0 2rem;
+  font-weight: 400;
+  text-align: left;
+}
+
+.columns.columns27 > div > div:first-child > div > p:nth-of-type(3) {
+  font-size: 13px;
+  color: #BDBDBD;
+  margin: 0 0 1.2rem;
+  font-weight: 400;
+  max-width: 95%;
+  text-align: left;
+}
+
+.columns.columns27 .button-container {
+  margin: 0;
+}
+
+.columns.columns27 .button-container .button {
+  background: transparent;
+  color: #111;
+  border: 1px solid #111;
+  border-radius: 999px;
+  padding: 0.4em 1.6em;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: none;
+  margin: 0.6em 0 0;
+  line-height: 1.4;
+  display: inline-block;
+}
+
+.columns.columns27 .button-container .button:hover,
+.columns.columns27 .button-container .button:focus {
+  background: #111;
+  color: #fff;
 }
