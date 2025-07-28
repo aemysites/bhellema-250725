@@ -2021,7 +2021,6 @@
   padding-bottom: 36px;
 }
 
-/* Left column: only Taylor Brooks, narrower, aligned with tags/headline */
 .columns.columns30 > div > div:first-child {
   flex: 0 0 95px;
   max-width: 95px;
@@ -2029,7 +2028,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-top: 62px; /* Adjust this value to visually align with tags/headline */
+  margin-top: 62px;
   padding: 0;
 }
 
@@ -2047,7 +2046,6 @@
   padding: 0;
 }
 
-/* Remove all pill styling from left column */
 .columns.columns30 > div > div:first-child > div:last-child,
 .columns.columns30 > div > div:first-child > div:last-child p {
   background: none;
@@ -2063,7 +2061,6 @@
   box-sizing: border-box;
 }
 
-/* Right column: everything else */
 .columns.columns30 > div > div:last-child {
   flex: 1 1 0;
   display: flex;
@@ -2074,7 +2071,6 @@
   max-width: 760px;
 }
 
-/* Pill/tags: style only the first three paragraphs after right column starts */
 .columns.columns30 > div > div:last-child > p:nth-child(-n+3) {
   background: #EAEAEA;
   color: #7A7A7A;
@@ -2091,12 +2087,10 @@
   box-sizing: border-box;
 }
 
-/* Pill/tags: increase spacing after last pill before heading */
 .columns.columns30 > div > div:last-child > p:nth-child(3) {
   margin-bottom: 28px;
 }
 
-/* Headline */
 .columns.columns30 h2#trends-made-for-living-bold {
   margin: 0 0 36px;
   font-family: var(--heading-font-family);
@@ -2109,7 +2103,6 @@
   width: 100%;
 }
 
-/* Body text */
 .columns.columns30 > div > div:last-child > p {
   color: #444;
   font-size: 15px;
@@ -2120,7 +2113,6 @@
   margin-top: 0;
 }
 
-/* Responsive adjustments */
 @media (width <= 900px) {
   .columns.columns30 > div {
     flex-direction: column;
@@ -2165,5 +2157,103 @@
 
   .columns.columns30 > div > div:last-child > p:nth-child(-n+3) {
     padding: 3px 11px;
+  }
+}
+
+
+.columns.columns31 {
+  background: #fafbf7;
+  padding: 8px 0;
+}
+
+/* 1. Layout: horizontal, center-aligned */
+.columns.columns31 > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* fix baseline alignment issue */
+  gap: 56px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 2. Stretch the button to the far right */
+.columns.columns31 > div > div:last-child {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* 3. Remove default unwanted padding/margin from columns */
+.columns.columns31 > div > div {
+  flex: 0 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+}
+
+/* 4. Text: small, dark, no truncation/ellipsis */
+.columns.columns31 p {
+  font-family: Inter, Arial, sans-serif;
+  font-size: 12px;
+  color: #222;
+  font-weight: 400;
+  line-height: 1.35;
+  margin: 0;
+  padding: 0;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+/* 5. Remove flex on .button-container for natural alignment */
+.columns.columns31 .button-container {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+/* 6. Button: pill, small, baseline align, outlined */
+.columns.columns31 .button-container .button {
+  background: transparent;
+  color: #222;
+  border: 1px solid #222;
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 12px;
+  font-family: Inter, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.3;
+  box-shadow: 0 3px 0 0 #fffd88;
+  margin: 0;
+  display: inline-block;
+  vertical-align: middle;
+  text-decoration: none;
+  background-clip: padding-box;
+  transition: box-shadow 0.2s;
+
+  /* Visually nudge for perfect alignment if needed:
+     Adjust pixel value below as needed for your environment */
+  margin-top: -2px;
+}
+
+/* 7. Button hover visual */
+.columns.columns31 .button-container .button:hover,
+.columns.columns31 .button-container .button:focus {
+  box-shadow: 0 5px 0 0 #fffd88;
+  outline: none;
+}
+
+/* 8. Responsive: stack on small screens */
+@media (width <= 900px) {
+  .columns.columns31 > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .columns.columns31 > div > div:last-child {
+    margin-left: 0;
+    justify-content: flex-start;
   }
 }
