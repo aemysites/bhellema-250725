@@ -1,27 +1,42 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the grid that holds the columns
-  const grid = element.querySelector('.w-layout-grid');
+  // Find main columns grid
+  const grid = element.querySelector('.grid-layout');
   if (!grid) return;
 
-  // Collect the direct children of the grid (these are the columns)
+  // Get top-level columns in the grid (should be 4 per HTML structure)
   const columns = Array.from(grid.children);
 
-  // If there are no columns, do not replace anything
-  if (!columns.length) return;
+  // There should be 4 columns according to the HTML provided:
+  // 0: author name
+  // 1: tags block
+  // 2: heading
+  // 3: text block (rich text)
 
-  // Prepare the header row with the exact block name/variant
-  const headerRow = ['Columns (columns30)'];
+  // For a 3-column block as in the reference, combine columns as follows:
+  // - Left: author name
+  // - Middle: tags + heading + text
+  // - Right: (none in this layout, so only 2 columns needed)
 
-  // Compose the cells row with the actual referenced elements from the DOM
-  const cellsRow = columns;
+  // Author name (left col)
+  const leftCol = columns[0];
 
-  // Create the block table
-  const table = WebImporter.DOMUtils.createTable([
-    headerRow,
-    cellsRow
-  ], document);
+  // Compose middle column: tags + heading + text
+  const middleCol = document.createElement('div');
+  if (columns[1]) middleCol.appendChild(columns[1]);
+  if (columns[2]) middleCol.appendChild(columns[2]);
+  if (columns[3]) middleCol.appendChild(columns[3]);
 
-  // Replace the original section element with the new table
+  // Final row for columns block
+  const contentRow = [leftCol, middleCol];
+
+  // Compose table for columns block
+  const cells = [
+    ['Columns (columns30)'],
+    contentRow
+  ];
+  const table = WebImporter.DOMUtils.createTable(cells, document);
+
+  // Replace original element
   element.replaceWith(table);
 }

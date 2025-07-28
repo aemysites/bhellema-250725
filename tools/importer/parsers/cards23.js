@@ -1,41 +1,39 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Header row as per spec
-  const headerRow = ['Cards (cards23)'];
-  const cells = [headerRow];
-  // Each tab content section can have cards
-  const tabPanes = element.querySelectorAll(':scope > div');
+  // Process each tab-pane in the tabs-content (one per block table)
+  const tabPanes = Array.from(element.querySelectorAll(':scope > .w-tab-pane'));
+
   tabPanes.forEach((tabPane) => {
-    // Each tabPane has a grid of cards
     const grid = tabPane.querySelector('.w-layout-grid');
     if (!grid) return;
-    // Each card is an <a>
-    const cards = grid.querySelectorAll(':scope > a');
+    const cards = Array.from(grid.querySelectorAll(':scope > a'));
+    const rows = [];
+    // Add block header row
+    rows.push(['Cards (cards23)']);
     cards.forEach((card) => {
-      // --- IMAGE CELL ---
-      // Try to find an image, typically in a .utility-aspect-3x2 or .utility-margin-bottom-1rem
-      let img = null;
-      const imgWrap = card.querySelector('.utility-aspect-3x2, .utility-margin-bottom-1rem');
-      if (imgWrap) {
-        img = imgWrap.querySelector('img');
+      // IMAGE CELL
+      let imageCell = null;
+      const img = card.querySelector('img');
+      if (img) {
+        imageCell = img;
+      } else {
+        // If no image, provide an empty div as a cell
+        imageCell = document.createElement('div');
       }
-      // --- TEXT CELL ---
-      // Title is usually an h3 with class .h4-heading
-      const title = card.querySelector('h3');
-      // Description is usually .paragraph-sm
+
+      // TEXT CELL: collect heading and paragraph in order
+      const textCell = document.createElement('div');
+      // Find the heading (h3 or .h4-heading)
+      const heading = card.querySelector('h3, .h4-heading');
+      if (heading) textCell.appendChild(heading);
+      // Find the description (paragraph)
       const desc = card.querySelector('.paragraph-sm');
-      // Compose the text cell, only push elements that exist
-      const textCell = [];
-      if (title) textCell.push(title);
-      if (desc) textCell.push(desc);
-      // Add the card row (always 2 columns, image and text)
-      cells.push([
-        img || '',
-        textCell.length > 0 ? textCell : ''
-      ]);
+      if (desc) textCell.appendChild(desc);
+
+      rows.push([imageCell, textCell]);
     });
+    // Create and swap the table for the grid
+    const table = WebImporter.DOMUtils.createTable(rows, document);
+    grid.replaceWith(table);
   });
-  // Create block table and replace
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
 }

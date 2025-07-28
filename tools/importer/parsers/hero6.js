@@ -1,55 +1,36 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Header row - must match example exactly
+  // 1. Table header should exactly match example
   const headerRow = ['Hero (hero6)'];
 
-  // === Row 2: Background Image ===
-  // Find the grid-layout (first-level child div)
-  const grid = element.querySelector(':scope > .w-layout-grid.grid-layout');
-  let bgImg = null;
-  if (grid) {
-    // The image will be in the first direct child (usually a div)
-    const bgDiv = grid.children[0];
-    if (bgDiv) {
-      bgImg = bgDiv.querySelector('img');
-    }
-  }
+  // 2. Find the background image (should be first grid cell's img)
+  let imgEl = element.querySelector('img[src]');
+  const imageRow = [imgEl ? imgEl : '']; // always a row, empty if not present
 
-  // === Row 3: Content (title, subtitle, CTAs) ===
-  // Card is in the 2nd column of the grid
-  let contentCellContent = [];
-  if (grid && grid.children.length > 1) {
-    // Drill into the 2nd column structure
-    const contentGrid = grid.children[1].querySelector('.w-layout-grid');
-    if (contentGrid) {
-      // The card is within the inner grid
-      const card = contentGrid.querySelector('.card');
-      if (card) {
-        // Heading (h1)
-        const h1 = card.querySelector('h1');
-        if (h1) contentCellContent.push(h1);
-        // Subheading (p.subheading)
-        const subheading = card.querySelector('p.subheading');
-        if (subheading) contentCellContent.push(subheading);
-        // Button group (optional)
-        const btnGroup = card.querySelector('.button-group');
-        if (btnGroup) {
-          // Add all buttons (anchor elements)
-          const btns = Array.from(btnGroup.querySelectorAll('a'));
-          if (btns.length) contentCellContent.push(...btns);
-        }
-      }
-    }
+  // 3. Find the card containing h1, subheading, button(s)
+  let card = element.querySelector('.card');
+  const contentParts = [];
+  if (card) {
+    // Heading
+    const h1 = card.querySelector('h1');
+    if (h1) contentParts.push(h1);
+    // Subheading or first paragraph
+    const subheading = card.querySelector('.subheading') || card.querySelector('p');
+    if (subheading) contentParts.push(subheading);
+    // Button group (could be missing)
+    const buttonGroup = card.querySelector('.button-group');
+    if (buttonGroup) contentParts.push(buttonGroup);
   }
+  const contentRow = [contentParts.length ? contentParts : ''];
 
-  // Edge case: If nothing extracted, ensure empty cell
-  if (contentCellContent.length === 0) contentCellContent = [''];
+  // Compose cells array, always 3 rows, 1 column
   const cells = [
     headerRow,
-    [bgImg || ''],
-    [contentCellContent]
+    imageRow,
+    contentRow
   ];
-  // Create block table
+
+  // Create and replace with block table
   const table = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(table);
 }

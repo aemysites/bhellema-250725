@@ -1,39 +1,32 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // 1. Table header row exactly as in the example
-  const rows = [['Accordion']];
+  // Find all direct children that are accordion blocks
+  const accordionItems = Array.from(element.querySelectorAll(':scope > .accordion, :scope > .w-dropdown'));
 
-  // 2. Get all accordion blocks (immediate children)
-  const accordions = element.querySelectorAll(':scope > .accordion');
+  const rows = [];
+  // Exact header as required
+  rows.push(['Accordion']);
 
-  accordions.forEach((accordion) => {
-    // Extract the title
-    let titleElem = '';
-    const toggle = accordion.querySelector('.w-dropdown-toggle');
-    if (toggle) {
-      // Title: look for any child with paragraph-lg, fallback to direct textContent
-      const titleCandidate = toggle.querySelector('.paragraph-lg');
-      titleElem = titleCandidate || '';
+  accordionItems.forEach((item) => {
+    // Title: look for .w-dropdown-toggle's .paragraph-lg
+    let title = item.querySelector('.w-dropdown-toggle .paragraph-lg');
+    // Fallback: use the whole .w-dropdown-toggle if .paragraph-lg is missing
+    if (!title) {
+      title = item.querySelector('.w-dropdown-toggle');
     }
-    // Extract the content (the expanded part)
-    let contentElem = '';
-    const nav = accordion.querySelector('nav.accordion-content');
-    if (nav) {
-      // Try to use the first .rich-text child, else the direct content
-      const rich = nav.querySelector('.rich-text');
-      if (rich) {
-        contentElem = rich;
-      } else {
-        // If no .rich-text, use the first div inside nav
-        const innerDiv = nav.querySelector('div');
-        contentElem = innerDiv || nav;
-      }
+    // Content: look for .w-dropdown-list .w-richtext, else just .w-dropdown-list, else fallback to empty div
+    let content = item.querySelector('.w-dropdown-list .w-richtext');
+    if (!content) {
+      content = item.querySelector('.w-dropdown-list');
     }
-    // Add row with 2 columns: [title, content]
-    rows.push([
-      titleElem,
-      contentElem
-    ]);
+    // Defensive: ensure at least an empty element if none found
+    if (!title) {
+      title = document.createElement('div');
+    }
+    if (!content) {
+      content = document.createElement('div');
+    }
+    rows.push([title, content]);
   });
 
   const table = WebImporter.DOMUtils.createTable(rows, document);

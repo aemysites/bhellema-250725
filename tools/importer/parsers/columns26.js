@@ -1,57 +1,42 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the inner container
+  // Find the first container inside the section
   const container = element.querySelector('.container');
   if (!container) return;
 
-  // Find the first .w-layout-grid inside the container (the outer grid)
-  const outerGrid = container.querySelector('.w-layout-grid');
-  if (!outerGrid) return;
+  // Find the main grid that holds the two top columns and bottom info row
+  const mainGrid = container.querySelector('.w-layout-grid.grid-layout');
+  if (!mainGrid) return;
 
-  // The columns in this layout are the direct children of the outer grid
-  const colElements = Array.from(outerGrid.children);
+  // The first two children are the two columns, the last is the author/info grid
+  const children = Array.from(mainGrid.children);
+  if (children.length < 3) return;
 
-  // Defensive: Should have at least two columns (left: heading/paragraph, right: testimonial grid)
-  if (colElements.length < 2) return;
+  // Left and right columns (the heading/author and the quote)
+  const leftCol = children[0]; // h2-heading
+  const rightCol = children[1]; // paragraph-lg
+  const infoGrid = children[2]; // nested grid, contains bottom row info
 
-  // left column: heading and paragraph stack
-  const leftCol = document.createElement('div');
-  // Both are <p> elements at the top level inside the grid
-  for (const child of colElements) {
-    if (child.matches('p')) {
-      leftCol.appendChild(child);
-    }
-  }
-  // Only include if we found any paragraphs
-  if (leftCol.childNodes.length === 0) return;
+  // infoGrid children: [0]=divider, [1]=flex-horizontal (avatar+name), [2]=logo svg
+  const infoChildren = Array.from(infoGrid.children);
+  const avatarBlock = infoChildren.find((el) => el.classList.contains('flex-horizontal'));
+  const logoBlock = infoChildren.find((el) => el.querySelector('svg'));
 
-  // right column: the nested grid (testimonial grid)
-  // Find the nested grid as a child of outerGrid
-  let rightCol = null;
-  for (const child of colElements) {
-    if (
-      child.classList.contains('w-layout-grid') &&
-      child !== outerGrid
-    ) {
-      rightCol = child;
-      break;
-    }
-  }
-  // If not found, try the last child (defensive, may be grid)
-  if (!rightCol && colElements[colElements.length - 1].classList.contains('w-layout-grid')) {
-    rightCol = colElements[colElements.length - 1];
-  }
-  // If still not found, fallback to the last child
-  if (!rightCol) {
-    rightCol = colElements[colElements.length - 1];
-  }
+  // Compose left cell: heading + avatar/name
+  const leftCell = document.createElement('div');
+  if (leftCol) leftCell.appendChild(leftCol);
+  if (avatarBlock) leftCell.appendChild(avatarBlock);
 
-  // Create the block table
-  const cells = [
+  // Compose right cell: quote + logo
+  const rightCell = document.createElement('div');
+  if (rightCol) rightCell.appendChild(rightCol);
+  if (logoBlock) rightCell.appendChild(logoBlock);
+
+  // Build the columns block table
+  const table = WebImporter.DOMUtils.createTable([
     ['Columns (columns26)'],
-    [leftCol, rightCol]
-  ];
+    [leftCell, rightCell]
+  ], document);
 
-  const table = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(table);
 }

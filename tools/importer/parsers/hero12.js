@@ -1,49 +1,51 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Header row
+  // 1. Header row (exactly as in example)
   const headerRow = ['Hero (hero12)'];
 
-  // Find background image - the first .grid-layout > div > img.cover-image.utility-position-absolute
-  let bgImg = null;
-  const grid = element.querySelector('.grid-layout');
-  if (grid && grid.children.length > 0) {
-    const firstGridChild = grid.children[0];
-    bgImg = firstGridChild.querySelector('img.cover-image.utility-position-absolute');
+  // 2. Background image row (cover image, prominent background)
+  // Look for an img.cover-image.utility-position-absolute directly under the first grid child
+  let bgImg = '';
+  const gridDivs = element.querySelectorAll(':scope > .w-layout-grid > div');
+  if (gridDivs.length > 0) {
+    // Search for the background image in the first div
+    const possibleBgImg = gridDivs[0].querySelector('img.cover-image.utility-position-absolute');
+    if (possibleBgImg) bgImg = possibleBgImg;
   }
 
-  // Find the content area (title, features, CTA), which is in the second grid column
-  let contentCell = null;
-  if (grid && grid.children.length > 1) {
-    // Card content is in: grid.children[1] (.container) > .card > .card-body > .grid-layout.desktop-3-column
-    const cardBody = grid.children[1].querySelector('.card-body');
+  // 3. Content row: all heading, details, cta, and related images
+  // This is always under the second main grid column > .container
+  let contentCell = '';
+  if (gridDivs.length > 1) {
+    const container = gridDivs[1].querySelector(':scope > .container');
+    // Use the card-body part (contains all text, buttons, and accessory images)
+    // Defensive: If .container is missing, fallback to the gridDiv itself
+    let cardBody = null;
+    if (container) {
+      cardBody = container.querySelector('.card-body');
+    }
+    if (!cardBody) {
+      // fallback to .card-body inside gridDivs[1] directly
+      cardBody = gridDivs[1].querySelector('.card-body');
+    }
+    // If not found, fallback to the whole gridDiv
     if (cardBody) {
-      const contentGrid = cardBody.querySelector('.grid-layout');
-      if (contentGrid) {
-        // There is an image (cover-image.utility-aspect-1x1), and a div with text/cta
-        const contentWrapper = document.createElement('div');
-        // Feature image
-        const featureImg = contentGrid.querySelector('img.cover-image.utility-aspect-1x1');
-        if (featureImg) {
-          contentWrapper.appendChild(featureImg);
-        }
-        // Text content and CTA: the first div inside contentGrid
-        const textDiv = contentGrid.querySelector('div');
-        if (textDiv) {
-          contentWrapper.appendChild(textDiv);
-        }
-        contentCell = contentWrapper.childNodes.length > 0 ? contentWrapper : null;
-      }
+      contentCell = cardBody;
+    } else if (container) {
+      contentCell = container;
+    } else {
+      contentCell = gridDivs[1];
     }
   }
 
-  // Assemble the table rows
+  // Compose the table rows
   const cells = [
     headerRow,
     [bgImg],
-    [contentCell],
+    [contentCell]
   ];
 
-  // Create and replace
+  // Create block table and replace element
   const table = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(table);
 }

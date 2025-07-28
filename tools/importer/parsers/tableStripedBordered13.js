@@ -1,40 +1,30 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Header row: block name as a single cell
+  // Table block header as in the example
   const headerRow = ['Table (striped, bordered)'];
-
-  // The subheader and all data rows must have two columns
-  const subHeaderRow = ['Question', 'Answer'];
-
-  // Collect all FAQ rows
+  // Table column headers as in the example screenshot
+  const columnHeader = ['Question', 'Answer'];
   const rows = [];
-  const dividers = element.querySelectorAll(':scope > .divider');
-  dividers.forEach(divider => {
-    const grid = divider.querySelector('.w-layout-grid');
-    if (grid) {
-      const question = grid.querySelector('.h4-heading');
-      const answer = grid.querySelector('.rich-text');
-      // Reference elements directly
-      rows.push([
-        question || document.createTextNode(''),
-        answer || document.createTextNode('')
-      ]);
-    }
-  });
 
-  // Table structure: first row is single column (header), all others are 2 columns
-  const cells = [headerRow];
-  // For the subheader and all data rows, make sure they are arrays of length 2
-  cells.push(subHeaderRow);
-  for (const row of rows) {
-    // Defensive: if row is not length 2, pad it
-    if (row.length === 2) {
-      cells.push(row);
-    } else {
-      cells.push([row[0] || '', row[1] || '']);
-    }
+  // Each direct child with class 'divider' is a row
+  const dividers = Array.from(element.querySelectorAll(':scope > .divider'));
+  for (const divider of dividers) {
+    // Each divider has a child grid-layout with 2 children: question and answer
+    const grid = divider.querySelector(':scope > .grid-layout');
+    if (!grid) continue;
+    const children = Array.from(grid.children);
+    // Defensive: Require both children
+    if (children.length < 2) continue;
+    const question = children[0]; // h4-heading
+    const answer = children[1]; // rich-text
+    // Reference the actual elements, not their HTML
+    rows.push([question, answer]);
   }
 
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+  // Only build the table if there's at least one row (besides headers)
+  if (rows.length > 0) {
+    const cells = [headerRow, columnHeader, ...rows];
+    const block = WebImporter.DOMUtils.createTable(cells, document);
+    element.replaceWith(block);
+  }
 }

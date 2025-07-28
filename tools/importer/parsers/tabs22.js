@@ -1,41 +1,28 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Get the tab menu and tab content containers
+  // Header row: block name only, per the example
+  const rows = [['Tabs']];
+
+  // Select tab labels
   const tabMenu = element.querySelector('.w-tab-menu');
-  const tabContent = element.querySelector('.w-tab-content');
+  const tabLinks = tabMenu ? Array.from(tabMenu.querySelectorAll('a')) : [];
 
-  // Extract tab labels (real text from HTML, as required by guidelines)
-  const tabLabels = tabMenu
-    ? Array.from(tabMenu.querySelectorAll('a')).map(a => {
-        const div = a.querySelector('div');
-        return div ? div.textContent.trim() : a.textContent.trim();
-      })
-    : [];
+  // Select tab contents
+  const tabContentContainer = element.querySelector('.w-tab-content');
+  const tabPanes = tabContentContainer ? Array.from(tabContentContainer.querySelectorAll('.w-tab-pane')) : [];
 
-  // Extract tab panes (in order)
-  const tabPanes = tabContent
-    ? Array.from(tabContent.querySelectorAll('.w-tab-pane'))
-    : [];
-
-  // Build the table rows
-  const rows = [];
-  // Header row: single column 'Tabs' (EXACT match)
-  rows.push(['Tabs']);
-  // Each subsequent row: [Tab Label, Tab Content]
-  for (let i = 0; i < Math.max(tabLabels.length, tabPanes.length); i++) {
-    // Use label or empty
-    const label = tabLabels[i] || '';
-    let contentCell = '';
-    const pane = tabPanes[i];
-    if (pane) {
-      // Find grid or use all children
-      const grid = Array.from(pane.children).find(child => child.classList.contains('w-layout-grid') || child.classList.contains('grid-layout'));
-      contentCell = grid || Array.from(pane.childNodes);
-    }
-    rows.push([label, contentCell]);
+  // For each label/content pair, append [label, content] row
+  const n = Math.min(tabLinks.length, tabPanes.length);
+  for (let i = 0; i < n; i++) {
+    // Tab label: use div if present, fallback to a textContent
+    let labelDiv = tabLinks[i].querySelector('div');
+    let label = labelDiv ? labelDiv.textContent.trim() : tabLinks[i].textContent.trim();
+    // Tab content: use inner grid if available, else pane itself
+    let content = tabPanes[i].querySelector('.w-layout-grid') || tabPanes[i];
+    rows.push([label, content]);
   }
 
-  // Create the table and replace the original element
+  // Create the block table and replace
   const table = WebImporter.DOMUtils.createTable(rows, document);
   element.replaceWith(table);
 }

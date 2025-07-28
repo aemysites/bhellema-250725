@@ -1,28 +1,39 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the main grid containing the columns
-  const grid = element.querySelector('.w-layout-grid');
+  // Get the main grid container for columns
+  const grid = element.querySelector('.grid-layout');
   if (!grid) return;
-  // Get the direct children of the grid
-  const gridCols = Array.from(grid.children);
+  // Get all immediate children of grid layout
+  const children = Array.from(grid.children);
 
-  // Find the image child (right column)
-  let imgEl = gridCols.find(child => child.tagName === 'IMG');
+  // We expect: text/main (div), contact-list (ul), image (img)
+  let textContent = null;
+  let contactList = null;
+  let image = null;
 
-  // For the left cell, gather everything except the image
-  const leftCols = gridCols.filter(child => child !== imgEl);
-  // Create a container to hold the left side content, referencing the actual elements
-  const leftCell = document.createElement('div');
-  leftCols.forEach(col => leftCell.appendChild(col));
+  children.forEach(child => {
+    if (child.tagName === 'DIV') {
+      textContent = child;
+    } else if (child.tagName === 'UL') {
+      contactList = child;
+    } else if (child.tagName === 'IMG') {
+      image = child;
+    }
+  });
 
-  // Compose the header row as a SINGLE cell (this fixes the issue)
-  const headerRow = ['Columns (columns18)'];
-  // Compose the content row: left content, right image (if present)
-  const contentRow = imgEl ? [leftCell, imgEl] : [leftCell];
-  const cells = [headerRow, contentRow];
+  // Combine text content div + contact list into a single column (if present)
+  const col1 = document.createElement('div');
+  if (textContent) col1.appendChild(textContent);
+  if (contactList) col1.appendChild(contactList);
 
-  // Create the block table
+  // Second column: image (if present)
+  const col2 = image ? image : '';
+
+  const cells = [
+    ['Columns (columns18)'],
+    [col1, col2]
+  ];
+
   const block = WebImporter.DOMUtils.createTable(cells, document);
-  // Replace the original element
   element.replaceWith(block);
 }

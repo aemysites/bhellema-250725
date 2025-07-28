@@ -1,39 +1,24 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Extract all images from the grid
-  const grid = element.querySelector('.grid-layout.desktop-3-column');
-  let imageElements = [];
-  if (grid) {
-    imageElements = Array.from(grid.querySelectorAll('img'));
+  // Find images in the collage (all 9 grid images)
+  let images = [];
+  const gridWrapper = element.querySelector('.ix-hero-scale-3x-to-1x');
+  if (gridWrapper) {
+    const grid = gridWrapper.querySelector('.grid-layout.desktop-3-column');
+    if (grid) {
+      images = Array.from(grid.querySelectorAll('.utility-position-relative > img.cover-image'));
+    }
   }
-
-  // Extract content from the text/buttons area
-  const contentDiv = element.querySelector('.ix-hero-scale-3x-to-1x-content .container');
-  let contentElements = [];
-  if (contentDiv) {
-    contentElements = Array.from(contentDiv.children);
+  // Find overlay text content (headline, subheading, buttons)
+  let overlayCell = '';
+  const overlayContent = element.querySelector('.ix-hero-scale-3x-to-1x-content .container');
+  if (overlayContent) {
+    overlayCell = overlayContent;
   }
-
-  // Prepare the two columns
-  const imagesCell = imageElements.length ? (() => {
-    if (imageElements.length === 1) return imageElements[0];
-    const wrap = document.createElement('div');
-    imageElements.forEach(img => wrap.appendChild(img));
-    return wrap;
-  })() : '';
-
-  const contentCell = contentElements.length ? (() => {
-    if (contentElements.length === 1) return contentElements[0];
-    const wrap = document.createElement('div');
-    contentElements.forEach(child => wrap.appendChild(child));
-    return wrap;
-  })() : '';
-
-  // Header row contains exactly one column
-  const headerRow = ['Columns (columns20)'];
+  // The first row must be a single cell (one column), per spec
   const cells = [
-    headerRow,
-    [imagesCell, contentCell]
+    ['Columns (columns20)'], // header row: single cell
+    [images, overlayCell]    // second row: two cells/columns
   ];
   const table = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(table);
