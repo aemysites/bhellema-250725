@@ -32,7 +32,6 @@
   }
 }
 
-
 .columns.columns1 {
   background: #F6F6F3;
   padding: 0;
@@ -47,7 +46,7 @@
   justify-content: center;
   max-width: 1020px;
   margin: 0 auto;
-  padding: 64px 0 64px 80px; /* More left inset */
+  padding: 64px 0 64px 80px;
   gap: 40px;
   box-sizing: border-box;
 }
@@ -69,7 +68,6 @@
   }
 }
 
-/* Image column */
 .columns.columns1 .columns-img-col {
   display: flex;
   align-items: flex-start;
@@ -97,7 +95,6 @@
   }
 }
 
-/* Text column */
 .columns.columns1 .columns-img-col + div {
   display: flex;
   flex-direction: column;
@@ -111,7 +108,7 @@
 }
 
 .columns.columns1 .columns-img-col + div h1 {
-  font-family: Orbitron, 'Montserrat Alternates', Arial, sans-serif;
+  font-family: Orbitron, Montserrat Alternates, Arial, sans-serif;
   font-size: 2.6rem;
   font-weight: 400;
   line-height: 1.21;
@@ -157,7 +154,7 @@
   border: 1.5px solid #181818;
   color: #181818;
   border-radius: 24px;
-  font-family: Orbitron, 'Montserrat Alternates', Arial, sans-serif;
+  font-family: Orbitron, Montserrat Alternates, Arial, sans-serif;
   font-size: 1rem;
   font-weight: 400;
   padding: 10px 28px;
@@ -174,4 +171,176 @@
   color: #fff;
   border-color: #181818;
   text-decoration: none;
+}
+
+.columns.columns2 .columns-img-col table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* Use flex row for the <tr> so th's are side by side */
+.columns.columns2 .columns-img-col tr {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Left column: image + main text */
+.columns.columns2 .columns-img-col th:first-child {
+  flex: 0 1 510px;
+  max-width: 510px;
+  min-width: 320px;
+  padding-right: 56px;
+  vertical-align: top;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Ensure it aligns with right column top */
+}
+
+.columns.columns2 .columns-img-col picture,
+.columns.columns2 .columns-img-col img {
+  width: 100%;
+  max-width: 440px;
+  border-radius: 18px;
+  margin-bottom: 36px;
+  object-fit: cover;
+  aspect-ratio: 1.36 / 1;
+  display: block;
+}
+
+.columns.columns2 .columns-img-col th:first-child a {
+  display: block;
+  color: #222;
+  font-family: var(--body-font-family);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.13;
+  max-width: 28em;
+  text-align: left;
+  margin-bottom: 0;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+  white-space: pre-line;
+  padding-right: 8px;
+}
+
+/* Right column: list of items */
+.columns.columns2 .columns-img-col th:last-child {
+  flex: 1 1 380px;
+  min-width: 260px;
+  max-width: 480px;
+  padding-top: 6px;
+  padding-left: 0;
+  vertical-align: top;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Headings */
+.columns.columns2 .columns-img-col th:last-child h3 {
+  font-family: var(--body-font-family);
+  color: #232323;
+  font-size: 1.13rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 0 3px;
+  line-height: 1.16;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+
+.columns.columns2 .columns-img-col th:last-child h3 a {
+  color: #232323;
+  text-decoration: none;
+  font-weight: inherit;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.columns.columns2 .columns-img-col th:last-child .button-container {
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.columns.columns2 .columns-img-col th:last-child .button-container:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Remove button look, make like subtext */
+.columns.columns2 .columns-img-col th:last-child .button {
+  display: block;
+  background: none;
+  color: #666;
+  font-size: 1rem;
+  text-align: left;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 100%;
+  margin: 0;
+  border-radius: 0;
+  white-space: normal;
+  text-overflow: initial;
+  cursor: default;
+  pointer-events: none;
+}
+
+.columns.columns2 .columns-img-col th:last-child .button:hover,
+.columns.columns2 .columns-img-col th:last-child .button:focus {
+  color: #666;
+  text-decoration: none;
+  background: none;
+}
+
+.columns.columns2 .columns-img-col th:last-child h3:first-child {
+  margin-top: 0;
+}
+
+.columns.columns2 .columns-img-col th:last-child * {
+  text-align: left;
+}
+
+@media (width <= 1100px) {
+  .columns.columns2 .columns-img-col th:first-child {
+    max-width: 420px;
+    padding-right: 32px;
+  }
+
+  .columns.columns2 .columns-img-col th:last-child {
+    max-width: 420px;
+  }
+}
+
+@media (width <= 900px) {
+  .columns.columns2 .columns-img-col tr {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .columns.columns2 .columns-img-col th:first-child,
+  .columns.columns2 .columns-img-col th:last-child {
+    max-width: 100%;
+    padding-right: 0;
+  }
+
+  .columns.columns2 .columns-img-col picture,
+  .columns.columns2 .columns-img-col img {
+    max-width: 100%;
+  }
+
+  .columns.columns2 .columns-img-col th:first-child a {
+    font-size: 1.35rem;
+    max-width: 100%;
+  }
 }
