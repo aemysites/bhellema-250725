@@ -1,38 +1,40 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Table header as specified
   const headerRow = ['Cards (cards25)'];
   const cells = [headerRow];
 
-  // Get all immediate card containers
-  const children = Array.from(element.querySelectorAll(':scope > div'));
+  // Get all top-level card containers: only those with both an image and text content
+  const cardDivs = Array.from(element.querySelectorAll(':scope > div'));
 
-  children.forEach((card) => {
-    // Locate image (mandatory for cards)
-    const img = card.querySelector('img');
-
-    // Try to find a text container
-    let textCell = '';
-    // Prefer contained text with heading and description, else empty string
-    const rel = card.querySelector('.utility-position-relative');
-    if (rel) {
-      const content = rel.querySelector('.utility-padding-all-2rem') || rel;
-      // Only add cell if content has children
-      if (content && (content.children.length > 0 || content.textContent.trim())) {
-        textCell = content;
+  cardDivs.forEach((cardDiv) => {
+    // Look for image (mandatory, always present)
+    const img = cardDiv.querySelector('img');
+    // Look for the text content (prefer .utility-padding-all-2rem, fallback to h3+p)
+    let textContent = null;
+    let contentDiv = cardDiv.querySelector('.utility-padding-all-2rem');
+    if (contentDiv) {
+      textContent = contentDiv;
+    } else {
+      // Fallback: create a wrapper for h3 and p if both exist
+      const h3 = cardDiv.querySelector('h3');
+      const p = cardDiv.querySelector('p');
+      if (h3 || p) {
+        const wrapper = document.createElement('div');
+        if (h3) wrapper.appendChild(h3);
+        if (p) wrapper.appendChild(p);
+        textContent = wrapper.childNodes.length ? wrapper : null;
       }
     }
-    // If no text, textCell stays empty string
 
-    // Only add as a row if an image was found (block spec)
-    if (img) {
-      cells.push([img, textCell]);
+    // Only add rows that have BOTH image and some text content
+    if (img && textContent && textContent.textContent.trim().length > 0) {
+      cells.push([img, textContent]);
     }
   });
 
-  // If only header, don't replace (avoid empty block)
-  if (cells.length === 1) return;
-
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  element.replaceWith(table);
+  // Only create block if there's at least the header and one card
+  if (cells.length > 1) {
+    const table = WebImporter.DOMUtils.createTable(cells, document);
+    element.replaceWith(table);
+  }
 }

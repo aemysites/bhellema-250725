@@ -1,26 +1,34 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Block header matches the example
+  // Build header row for block table
   const headerRow = ['Cards (cards24)'];
-  // Collect all card <a> blocks directly under the grid
-  const cards = Array.from(element.querySelectorAll(':scope > a.utility-link-content-block'));
-  const rows = cards.map(card => {
-    // First cell: the image (take image element directly)
-    let imageEl = null;
-    const imgWrapper = card.querySelector(':scope > div');
-    if (imgWrapper) {
-      imageEl = imgWrapper.querySelector('img');
+  const rows = [];
+  // Select each card anchor directly under the grid
+  const cards = element.querySelectorAll(':scope > a.utility-link-content-block');
+  cards.forEach((card) => {
+    // First column: image element (reference the existing <img>)
+    let image = '';
+    const imageContainer = card.querySelector('.utility-aspect-2x3');
+    if (imageContainer) {
+      const foundImg = imageContainer.querySelector('img');
+      if (foundImg) image = foundImg;
     }
-    // Second cell: text content (tag, date, title)
-    // We'll combine the tag/date (which is in a flex row) and title (h3) in a div
-    const parts = [];
-    const tagDate = card.querySelector('.flex-horizontal');
-    if (tagDate) parts.push(tagDate);
-    const heading = card.querySelector('h3');
-    if (heading) parts.push(heading);
-    // If no tag/date or heading, cell should still exist but be empty
-    const rightCell = parts.length === 1 ? parts[0] : (parts.length ? parts : '');
-    return [imageEl, rightCell];
+    // Second column: wrap all relevant text content
+    // Build a fragment with tag/date and heading
+    const fragment = document.createElement('div');
+    // Tag + date
+    const tagAndDate = card.querySelector('.flex-horizontal');
+    if (tagAndDate) {
+      while (tagAndDate.childNodes.length > 0) {
+        fragment.appendChild(tagAndDate.childNodes[0]);
+      }
+    }
+    // Heading
+    const heading = card.querySelector('h3, .h4-heading');
+    if (heading) {
+      fragment.appendChild(heading);
+    }
+    rows.push([image, fragment]);
   });
   const table = WebImporter.DOMUtils.createTable([
     headerRow,

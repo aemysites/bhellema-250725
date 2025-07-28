@@ -1,24 +1,23 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the grid containing the carousel images
+  // Find the grid layout containing the slides
   const grid = element.querySelector('.w-layout-grid');
   if (!grid) return;
 
-  // Gather all grid items (each carousel slide)
   const slides = Array.from(grid.children);
+  const cells = [];
+  // The table header matches the block name
+  cells.push(['Carousel']);
 
-  // Prepare table rows: each slide = [image, '']
-  const rows = slides.map(slide => {
+  slides.forEach((slide) => {
+    // Find the first <img> in each slide (as per the structure)
     const img = slide.querySelector('img');
-    return [img || '', ''];
+    if (img) {
+      cells.push([img]); // Only one image per slide, no additional content present
+    }
   });
 
-  // The header row must have exactly one cell, matching the example
-  const cells = [
-    ['Carousel'], // Header: exactly one column
-    ...rows      // Each row: two columns (image, empty)
-  ];
-
+  // Build the carousel block table
   const block = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(block);
 }

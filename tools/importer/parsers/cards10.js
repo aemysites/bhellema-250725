@@ -1,43 +1,41 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Header as in the example
   const headerRow = ['Cards (cards10)'];
+  const cells = [headerRow];
 
-  // Find all top-level card links
-  const cardLinks = Array.from(element.querySelectorAll(':scope > a'));
-
-  const rows = [headerRow];
-
+  // Get all direct card links
+  const cardLinks = element.querySelectorAll(':scope > a.card-link');
   cardLinks.forEach(card => {
-    // Image cell: find the first <img> in card (in .utility-aspect-3x2)
-    const imgContainer = card.querySelector('.utility-aspect-3x2');
-    const img = imgContainer ? imgContainer.querySelector('img') : null;
+    // Get image (first direct child div, then the img inside)
+    const imgDiv = card.querySelector(':scope > div');
+    const img = imgDiv ? imgDiv.querySelector('img') : null;
 
-    // Text cell construction
-    const textContainer = card.querySelector('.utility-padding-all-1rem');
-    let textCellContent = [];
+    // Get text content container
+    const textDiv = card.querySelector('.utility-padding-all-1rem');
+    
+    // Compose text content using existing elements (do not clone)
+    const textContentParts = [];
+    if (textDiv) {
+      // Tag (optional)
+      const tagGroup = textDiv.querySelector('.tag-group');
+      if (tagGroup) textContentParts.push(tagGroup);
 
-    if (textContainer) {
-      // Tags: all <div class="tag"> inside .tag-group
-      const tagGroup = textContainer.querySelector('.tag-group');
-      if (tagGroup) {
-        const tags = Array.from(tagGroup.querySelectorAll('.tag'));
-        textCellContent.push(...tags);
-      }
-      // Heading: h3 or .h4-heading
-      const heading = textContainer.querySelector('h3, .h4-heading');
-      if (heading) textCellContent.push(heading);
-      // Paragraph: p or .paragraph-sm
-      const para = textContainer.querySelector('p, .paragraph-sm');
-      if (para) textCellContent.push(para);
+      // Heading
+      const heading = textDiv.querySelector('h3, .h4-heading');
+      if (heading) textContentParts.push(heading);
+
+      // Paragraph/Description
+      const desc = textDiv.querySelector('p');
+      if (desc) textContentParts.push(desc);
     }
 
-    rows.push([
+    // Push row: [image, [tag, heading, description]]
+    cells.push([
       img,
-      textCellContent
+      textContentParts
     ]);
   });
 
-  const table = WebImporter.DOMUtils.createTable(rows, document);
+  const table = WebImporter.DOMUtils.createTable(cells, document);
   element.replaceWith(table);
 }

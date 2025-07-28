@@ -1,21 +1,19 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // According to the markdown example, the header row must be a single cell.
+  // Get all immediate child divs representing columns
+  const columnDivs = Array.from(element.querySelectorAll(':scope > div'));
+  if (!columnDivs.length) return;
+
+  // Header row: only ONE cell, matching the example exactly
   const headerRow = ['Columns (columns4)'];
+  // Second row: one cell per column
+  const contentRow = columnDivs;
 
-  // The images or content divs are in direct children. Each one is a column cell in the second row.
-  const columns = Array.from(element.querySelectorAll(':scope > div'));
+  // Compose the table
+  const table = WebImporter.DOMUtils.createTable([
+    headerRow,
+    contentRow
+  ], document);
 
-  // The second row must have as many cells as there are columns (children of the grid)
-  // Each cell should contain the entire column div (including its image/content)
-  const contentRow = columns.map(col => col);
-
-  // Compose the table rows: first row is single header cell, second row is n columns.
-  const cells = [headerRow, contentRow];
-
-  // Create the table using the provided helper
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-
-  // Replace the element in the DOM
   element.replaceWith(table);
 }

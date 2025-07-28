@@ -1,18 +1,24 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // Find the grid container inside the footer
-  const grid = element.querySelector('.w-layout-grid.grid-layout');
+  // Find the grid container with the columns
+  const grid = element.querySelector('.w-layout-grid');
   if (!grid) return;
-  // The columns are the direct children of the grid
+
+  // Get all direct children of the grid (these are the columns, typically div/ul)
   const columns = Array.from(grid.children);
-  // Build the header row as one single cell
+
+  // Table header must be a single cell (as per example)
   const header = ['Columns (columns9)'];
-  // The content row should reference each full column element as a cell (one cell per column)
+
+  // The first content row: one cell per column
   const contentRow = columns;
-  // Compose the table cells
-  const cells = [header, contentRow];
-  // Create the block table
-  const table = WebImporter.DOMUtils.createTable(cells, document);
-  // Replace the original element with the new table
+
+  // Compose the table, first row is header (1 col), then content row (n cols)
+  const table = WebImporter.DOMUtils.createTable([
+    header,      // Single-cell header row
+    contentRow   // As many cells as columns
+  ], document);
+
+  // Replace the original element with the table
   element.replaceWith(table);
 }

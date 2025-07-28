@@ -1,45 +1,54 @@
 /* global WebImporter */
 export default function parse(element, { document }) {
-  // The relevant block is inside .container > .grid-layout
-  const container = element.querySelector('.container');
+  // Find the .container inside the section
+  const container = element.querySelector(':scope > .container');
   if (!container) return;
-  const grid = container.querySelector('.grid-layout');
+  // Find the main grid layout
+  const grid = container.querySelector(':scope > .grid-layout');
   if (!grid) return;
 
-  // LEFT COLUMN: anchor with image, tag, heading, paragraph
-  const leftCard = grid.querySelector('a.utility-link-content-block');
+  // The grid's children: 0 = left main, 1 = top right (2 cards), 2 = bottom right (6 cards)
+  const gridChildren = Array.from(grid.children);
 
-  // RIGHT COLUMNS (vertical stack of cards):
-  // First flex-horizontal: two image cards
-  // Second flex-horizontal: a vertical stack of text cards and dividers
-  // We want to group all right content as a single column
-  const flexRows = grid.querySelectorAll(':scope > .flex-horizontal');
-  const rightColContent = [];
+  // First column: the large left block (first <a>)
+  const leftCol = gridChildren.find(child => child.tagName === 'A');
+  if (!leftCol) return;
 
-  if (flexRows.length > 0) {
-    // first flex-horizontal: image cards (anchors)
-    const imageCards = flexRows[0].querySelectorAll('a.utility-link-content-block');
-    imageCards.forEach(card => {
-      rightColContent.push(card);
-    });
-  }
-  if (flexRows.length > 1) {
-    const textCardsAndDividers = flexRows[1].children;
-    Array.from(textCardsAndDividers).forEach(child => {
-      // Only add anchors (the cards)
-      if (child.tagName === 'A') {
-        rightColContent.push(child);
-      }
-    });
-  }
+  // The first .flex-horizontal with 2 <a>
+  const rightTop = gridChildren.find(
+    el => el.classList.contains('flex-horizontal') && el.querySelectorAll(':scope > a').length === 2
+  );
+  // The second .flex-horizontal with 6 <a>
+  const rightBottom = gridChildren.find(
+    el => el.classList.contains('flex-horizontal') && el.querySelectorAll(':scope > a').length === 6
+  );
 
-  // Build table: header row followed by a single row with two columns (left, right)
-  const tableData = [
-    ['Columns (columns2)'],
-    [leftCard, rightColContent]
+  // Extract the two right-top <a>
+  const rightTopLinks = rightTop ? Array.from(rightTop.querySelectorAll(':scope > a')) : [];
+  // Extract the six right-bottom <a>
+  const rightBottomLinks = rightBottom ? Array.from(rightBottom.querySelectorAll(':scope > a')) : [];
+
+  // Compose the columns:
+  // - Left column: leftCol
+  // - Right column: the two rightTopLinks + the six rightBottomLinks
+  // We'll combine all right links in a single right column using a <div>
+  const rightColContent = document.createElement('div');
+  rightTopLinks.forEach(el => rightColContent.appendChild(el));
+  rightBottomLinks.forEach(el => rightColContent.appendChild(el));
+
+  // Build an inner table with two columns (left and right) for the content row
+  const innerTableRows = [
+    [leftCol, rightColContent]
   ];
+  const innerTable = WebImporter.DOMUtils.createTable(innerTableRows, document);
 
-  // Create and replace
-  const block = WebImporter.DOMUtils.createTable(tableData, document);
+  // OUTER table: header and one content row (which has the two columns inside)
+  const headerRow = ['Columns (columns2)'];
+  const contentRow = [innerTable];
+
+  const block = WebImporter.DOMUtils.createTable([
+    headerRow,
+    contentRow
+  ], document);
   element.replaceWith(block);
 }
