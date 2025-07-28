@@ -1,14 +1,92 @@
-.accordion details {
-  border: 1px solid #dadada;
+.accordion {
+  background: #fafaf6;
+  color: #383838;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
+.accordion details {
+  border: none;
+  border-bottom: 1px solid #e0e0e0;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .accordion details + details {
   margin-top: 24px;
 }
 
+.accordion details:last-child {
+  border-bottom: none;
+}
+
 .accordion details p {
   margin-bottom: 0.8em;
+}
+
+.accordion .accordion-item-body {
+  padding: 0 0 7px 6px;
+  color: #383838;
+  font-size: 16px;
+  background: transparent;
+  border: none;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.accordion details .accordion-item-body {
+  padding: 0 16px;
+}
+
+.accordion details[open] .accordion-item-body {
+  border-top: 1px solid #dadada;
+  background-color: var(--background-color);
+}
+
+.accordion summary {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 0 7px 6px;
+  width: 100%;
+  box-sizing: border-box;
+  cursor: pointer;
+  background: transparent;
+  color: #383838;
+  font-size: 16px;
+  font-family: inherit;
+  outline: none;
+  border: none;
+  margin: 0;
+  min-height: 32px;
+  list-style: none;
+  transition: background 0.2s;
+  appearance: none;
+  gap: 0;
+}
+
+.accordion summary::-webkit-details-marker,
+.accordion summary::marker {
+  display: none;
+}
+
+.accordion summary::after {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 8px;
+  margin-right: -2px;
+  background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 24 24" fill="none" stroke="%23383838" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><polyline points="6 9 12 15 18 9"/></svg>') no-repeat center center;
+  background-size: 16px 16px;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+  align-self: center;
 }
 
 .accordion details summary {
@@ -48,14 +126,54 @@
 }
 
 .accordion details[open] summary::after {
-  transform: translateY(-50%) rotate(-45deg);
+  transform: rotate(180deg);
 }
 
-.accordion details .accordion-item-body {
-  padding: 0 16px;
+.accordion details:last-child summary {
+  border-bottom: none;
 }
 
-.accordion details[open] .accordion-item-body {
-  border-top: 1px solid #dadada;
-  background-color: var(--background-color);
+.accordion summary p {
+  margin: 0;
+  padding: 0;
+  flex: 1 1 auto;
+  color: inherit;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: 600;
+  text-align: left;
+  background: transparent;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.accordion summary,
+.accordion details {
+  margin: 0;
+  padding: 0;
+}
+
+.accordion-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 32px;
+  background: #fafaf6;
+}
+
+.accordion-wrapper > .accordion {
+  flex: 1 1 0;
+  min-width: 280px;
+  box-sizing: border-box;
+}
+
+@media (width <= 799px) {
+  .accordion-wrapper {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .accordion-wrapper > .accordion {
+    width: 100%;
+    min-width: 0;
+  }
 }
