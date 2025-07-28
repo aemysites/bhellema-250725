@@ -1074,19 +1074,16 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  /* Remove left/right padding; let the child handle horizontal centering */
   padding: 0;
 }
 
-/* Horizontally and vertically center the columns block in the viewport */
 .columns.columns15 > div {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 40px; /* Reduced gap for closer text-image relationship */
-  max-width: 980px; /* Tighter max width for more balanced look */
+  gap: 40px;
+  max-width: 980px;
   margin: auto;
   padding: 0;
   min-height: 520px;
@@ -1094,7 +1091,6 @@
   width: 100%;
 }
 
-/* Left column: text block */
 .columns.columns15 > div > :first-child {
   order: 1;
   flex: 1 1 0;
@@ -1111,7 +1107,6 @@
   box-sizing: border-box;
 }
 
-/* Headline: maintain readable width, slightly increased font for visual parity */
 .columns.columns15 h1 {
   font-family: Syncopate, "Syncopate Fallback", sans-serif;
   font-size: 3.2rem;
@@ -1125,7 +1120,6 @@
   word-break: break-word;
 }
 
-/* Paragraph: less bottom margin for button proximity */
 .columns.columns15 p {
   color: #5b5b5b;
   font-size: 1rem;
@@ -1134,7 +1128,6 @@
   text-align: left;
 }
 
-/* Button container: tight grouping under text */
 .columns.columns15 .button-container {
   width: 100%;
   display: flex;
@@ -1144,7 +1137,6 @@
   padding: 0;
 }
 
-/* Button appearance override (pill style, white bg, black border, black text) */
 .columns.columns15 .button-container .button {
   background: #fff;
   color: #151515;
@@ -1168,7 +1160,6 @@
   color: #151515;
 }
 
-/* Right column: image, center vertically */
 .columns.columns15 > div > .columns-img-col {
   order: 2;
   flex: 0 1 400px;
@@ -1180,7 +1171,6 @@
   height: 100%;
 }
 
-/* Image and picture styles */
 .columns.columns15 .columns-img-col img,
 .columns.columns15 .columns-img-col picture {
   width: 100%;
@@ -1193,7 +1183,6 @@
   background: #fff;
 }
 
-/* Responsive layout: stack columns, reduce padding and gaps */
 @media (width <= 900px) {
   .columns.columns15 {
     min-height: unset;
@@ -1233,4 +1222,202 @@
     font-size: 2rem;
     margin-bottom: 10px;
   }
+}
+
+
+.columns.columns18 {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 72px 0 64px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+/* Outer row: flex, image right, content left */
+.columns.columns18 > div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 48px;
+}
+
+/* Widen content, narrow image for better balance and no heading cutoff */
+.columns.columns18 > div > div:not(.columns-img-col) {
+  order: 1;
+  flex: 1 1 44%;
+  max-width: 540px;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.columns.columns18 > div > .columns-img-col {
+  order: 2;
+  flex: 1 1 56%;
+  max-width: 56%;
+  min-width: 340px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+@media (width <= 900px) {
+  .columns.columns18 > div {
+    flex-direction: column;
+    gap: 38px;
+  }
+
+  .columns.columns18 > div > .columns-img-col,
+  .columns.columns18 > div > div:not(.columns-img-col) {
+    order: unset;
+    max-width: 100%;
+    min-width: 0;
+    flex-basis: auto;
+  }
+
+  .columns.columns18 {
+    padding: 40px 0 38px;
+  }
+}
+
+.columns.columns18 .columns-img-col picture,
+.columns.columns18 .columns-img-col img {
+  width: 100%;
+  height: auto;
+  border-radius: 38px;
+  display: block;
+  object-fit: cover;
+  max-width: 100%;
+}
+
+/* Section label */
+.columns.columns18 h2 {
+  text-transform: uppercase;
+  font-size: 0.74rem;
+  color: #d4d4d4;
+  font-family: var(--heading-font-family), sans-serif;
+  font-weight: 400;
+  margin: 0 0 1.4em;
+  letter-spacing: 0.17em;
+  line-height: 1.33;
+}
+
+/* Main heading - reduced font size to prevent cutoff */
+.columns.columns18 h3 {
+  font-family: Montserrat, Poppins, var(--heading-font-family), Arial, sans-serif;
+  font-size: 2.7rem;
+  font-weight: 500;
+  color: #171717;
+  text-transform: lowercase;
+  margin: 0 0 1.1em;
+  letter-spacing: 0;
+  line-height: 1.12;
+}
+
+/* Supporting text */
+.columns.columns18 p {
+  font-size: 1.03rem;
+  color: #888;
+  margin: 0 0 0.6em;
+  font-family: var(--body-font-family), sans-serif;
+}
+
+/* Contact list and spacing above it */
+.columns.columns18 ul {
+  margin: 2.8em 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.columns.columns18 ul li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.columns.columns18 ul li > p:first-child {
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Icon: slightly larger than previous, keeps airy feel */
+.columns.columns18 ul li > p:first-child img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f2f2f2;
+  padding: 7px;
+  object-fit: contain;
+  display: block;
+  box-sizing: border-box;
+  border: none;
+  margin: 0;
+}
+
+/* Contact label */
+.columns.columns18 ul li h4 {
+  color: #c8c8c8;
+  font-size: 0.81rem;
+  font-family: var(--heading-font-family), sans-serif;
+  font-weight: 400;
+  margin: 0 0.4em 0 0;
+  letter-spacing: 0.13em;
+  line-height: 1.07;
+}
+
+/* Contact value: larger, more readable, little left margin */
+.columns.columns18 ul li h4 + p,
+.columns.columns18 ul li .button-container a {
+  font-size: 1.14rem;
+  font-weight: 500;
+  color: #171717;
+  margin: 0 0 0 0.25em;
+  line-height: 1.14;
+  font-family: var(--body-font-family), sans-serif;
+  text-decoration: none;
+  letter-spacing: 0;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.columns.columns18 ul li .button-container a {
+  background: none;
+  border: none;
+  color: #171717;
+  border-radius: 0;
+  padding: 0;
+  font-size: 1.14rem;
+  text-decoration: underline;
+  max-width: unset;
+  box-shadow: none;
+}
+
+/* Remove extra margin in contacts */
+.columns.columns18 ul li p:not(:first-child) {
+  margin: 0;
+}
+
+/* Section: reduce vertical padding slightly for balance */
+@media (width >= 1200px) {
+  .columns.columns18 {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+/* Tighter vertical spacing between all top-level children except last */
+.columns.columns18 > div > div:not(.columns-img-col) > *:not(:last-child) {
+  margin-bottom: 0.36em;
 }
