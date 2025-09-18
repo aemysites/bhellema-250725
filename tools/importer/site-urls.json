@@ -67,6 +67,11 @@
       "source": "SITEMAPS",
       "targetPath": "/latest-trends-young-fashion",
       "id": "f5e200536a2c91b06effaf661df0675e13f262b6"
+    },
+    {
+      "ur": "https://www.wknd-trendsetters.site/blog/fashion-trends-stories"
+      "source": "MANUAL",
+      "targetPath": "/fashion-trends-stories"
     }
   ],
   "crawlOptions": {
